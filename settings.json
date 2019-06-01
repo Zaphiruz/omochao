@@ -1,3 +1,4 @@
 {
-    "commandToken": "~"
+    "commandToken": "~",
+    "greeting": "Welcome {{username}}"
 }
