@@ -38,7 +38,7 @@ module.exports = class Bot {
             }
         }
 
-        this._.bot.login(token);
+        this._.bot.login(process.env.TOKEN || token);
     }
 
     onevent(type, e) {
