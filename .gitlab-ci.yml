@@ -1,0 +1,24 @@
+
+stages:
+      - build
+      - deploy
+
+cache:
+      paths:
+        - node_modules/
+
+install_dependencies:
+      stage: build
+      script:
+        - npm install
+      artifacts:
+        paths:
+          - node_modules/
+
+destory_other_instances:
+      stage: deploy
+      script: taskkill /im node.exe
+
+deploy:
+      stage: deploy
+      script: npm start
