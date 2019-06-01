@@ -21,6 +21,10 @@ module.exports = class Ping extends Command {
                     .filter( (text, index) => (index % 2 == 0) ) // every other is a pun
                 
                 let randomFact = facts[ Math.round(Math.random() *  facts.length) ];
+                if(!randomFact) {
+                    throw new Error('No Facts Exist');
+                }
+
                 e.channel.send(randomFact);
             })
             .catch((err) => {

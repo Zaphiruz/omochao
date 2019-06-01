@@ -49,12 +49,16 @@ module.exports = class Bot {
                 break;
                 
             case Bot.EVENT_TYPES.MESSAGE:
-                if( e.content.startsWith(this.settings.commandToken) ) {
-                    let args = e.content.substring(this.settings.commandToken.length).split(' ').map( s  => s.toLowerCase());
-                    let cmd = args.shift();
-        
-                    this.callAction(e, cmd, args, Bot.EVENT_TYPES.MESSAGE);
+                if( !e.content.startsWith(this.settings.commandToken) || 
+                    e.author.bot ) { 
+                    return;
                 }
+
+
+                let args = e.content.substring(this.settings.commandToken.length).split(' ').map( s  => s.toLowerCase());
+                let cmd = args.shift();
+    
+                this.callAction(e, cmd, args, Bot.EVENT_TYPES.MESSAGE);
                 break;
         }
     }
