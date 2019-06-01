@@ -16,10 +16,11 @@ install_dependencies:
         paths:
           - node_modules/
 
+deploy:
+      stage: deploy
+      script: npm start
+
 destory_other_instances:
       stage: deploy
       script: taskkill /im node.exe
 
-deploy:
-      stage: deploy
-      script: npm start
