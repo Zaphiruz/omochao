@@ -7,7 +7,6 @@ module.exports = class Greet extends Command {
     }
 
     action(e, args) {
-        debugger;
         e.guild.channels.get('channelID').send(TemplateHelper.mapToObject(this.settings.greeting, e.user));
     }
 }

@@ -2,7 +2,7 @@ let auth, settings;
 try {
     auth = require("../auth.json");
     settings = require("../settings.json");
-} catch {
+} catch(e) {
     auth = auth || {token: ""};
     settings = settings || {};
 }
