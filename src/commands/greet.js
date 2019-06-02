@@ -7,6 +7,10 @@ module.exports = class Greet extends Command {
     }
 
     action(e, args) {
-        e.guild.channels.get('channelID').send(TemplateHelper.mapToObject(this.settings.greeting, e.user));
+        e.guild.channels.get('channelID').send(this.welcome(this.settings.greeting, e.user));
+    }
+
+    welcome(string, obj) {
+        return TemplateHelper.mapToObject(string, obj);
     }
 }

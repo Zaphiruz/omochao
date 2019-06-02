@@ -124,7 +124,9 @@ module.exports = class Trivia extends Command {
             case 'change':
                 this.setSetting(args[1], args[2], e)
                 break;
-                
+            
+            default:
+                    e.channel.send('Please use one of the following commands: list, start, answer, next, stop, reset, change')
         }
     }
 

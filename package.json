@@ -4,7 +4,8 @@
   "description": "a discord bot for emi",
   "main": "src/app.js",
   "scripts": {
-    "start": "node src/app.js"
+    "start": "node src/app.js",
+    "dev": "node --inspect src/app.js"
   },
   "author": "Jacob Thomas",
   "license": "ISC",
