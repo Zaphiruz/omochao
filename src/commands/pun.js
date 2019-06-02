@@ -4,7 +4,7 @@ const request= require('request-promise');
 
 const logger = require('../utils/logger.js');
 
-module.exports = class Ping extends Command {
+module.exports = class Pun extends Command {
     constructor(bot, settings) {
         super('pun', bot, settings);
     }

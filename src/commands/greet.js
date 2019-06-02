@@ -1,7 +1,7 @@
 const Command = require('../command.js');
 const TemplateHelper = require('../utils/TemplaterHelper.js');
 
-module.exports = class Ping extends Command {
+module.exports = class Greet extends Command {
     constructor(bot, settings) {
         super('greeter', bot, settings);
     }

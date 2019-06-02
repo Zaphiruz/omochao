@@ -1,9 +1,9 @@
-let auth,settings;
+let auth, settings;
 try {
-    let auth = require("../auth.json");
-    let settings = require("../settings.json");
+    auth = require("../auth.json");
+    settings = require("../settings.json");
 } catch {
-    auth = auth || "";
+    auth = auth || {token: ""};
     settings = settings || {};
 }
 

@@ -4,6 +4,7 @@ const logger = require('./utils/logger.js');
 const Ping = require('./commands/ping.js');
 const Greeter = require('./commands/greet.js');
 const Pun = require('./commands/pun.js');
+const Trivia = require('./commands/trivia.js');
 
 module.exports = class Bot {
 
@@ -27,11 +28,13 @@ module.exports = class Bot {
         let ping = new Ping(this._.bot, this.settings);
         let greet= new Greeter(this._.bot, this.settings);
         let pun = new Pun(this._.bot, this.settings);
+        let trivia= new Trivia(this._.bot, this.settings);
 
         this._.commands = {
             [Bot.EVENT_TYPES.MESSAGE]: {
                 ping,
-                pun
+                pun,
+                trivia
             },
             [Bot.EVENT_TYPES.GUILD_MEMBER_ADD]: {
                 greet
