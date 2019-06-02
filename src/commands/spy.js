@@ -22,8 +22,8 @@ module.exports = class Spy extends Command {
     }
 
     spy(e) {
-        if( /omochao/i.test(e.content) ) {
-            e.channel.send('**sneezes**');
+        if( this.isOn && /omochao/i.test(e.content) ) {
+            e.channel.send('***sneezes***');
         }
     }
 

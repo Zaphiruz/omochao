@@ -71,6 +71,8 @@ module.exports = class Bot {
 
                 let args = e.content.substring(this.settings.commandToken.length).split(' ').map( s  => s.toLowerCase());
                 let cmd = args.shift();
+
+                this.callAction(e, cmd, args, Bot.EVENT_TYPES.MESSAGE)
                 break;
         }
     }
