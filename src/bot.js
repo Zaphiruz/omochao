@@ -5,13 +5,15 @@ const Ping = require('./commands/ping.js');
 const Greeter = require('./commands/greet.js');
 const Pun = require('./commands/pun.js');
 const Trivia = require('./commands/trivia.js');
+const Spy = require('./commands/spy.js');
 
 module.exports = class Bot {
 
     static get EVENT_TYPES() {
         return {
             MESSAGE: "message",
-            GUILD_MEMBER_ADD: "guildMemberAdd"
+            GUILD_MEMBER_ADD: "guildMemberAdd",
+            SPY: "spy"
         }
     }
 
@@ -29,15 +31,20 @@ module.exports = class Bot {
         let greet= new Greeter(this._.bot, this.settings);
         let pun = new Pun(this._.bot, this.settings);
         let trivia= new Trivia(this._.bot, this.settings);
+        let spy = new Spy(this._.bot, this.settings);
 
         this._.commands = {
             [Bot.EVENT_TYPES.MESSAGE]: {
                 ping,
                 pun,
-                trivia
+                trivia,
+                spy
             },
             [Bot.EVENT_TYPES.GUILD_MEMBER_ADD]: {
                 greet
+            },
+            [Bot.EVENT_TYPES.SPY]: {
+                spy
             }
         }
 
@@ -52,16 +59,18 @@ module.exports = class Bot {
                 break;
                 
             case Bot.EVENT_TYPES.MESSAGE:
-                if( !e.content.startsWith(this.settings.commandToken) || 
-                    e.author.bot ) { 
+                if( e.author.bot ) {
+                    return
+                }
+
+                this.callSpy(e);
+
+                if( !e.content.startsWith(this.settings.commandToken) ) {
                     return;
                 }
 
-
                 let args = e.content.substring(this.settings.commandToken.length).split(' ').map( s  => s.toLowerCase());
                 let cmd = args.shift();
-    
-                this.callAction(e, cmd, args, Bot.EVENT_TYPES.MESSAGE);
                 break;
         }
     }
@@ -75,6 +84,13 @@ module.exports = class Bot {
         if( cmd in this._.commands[type] ) {
             logger.info('Running command: ' + cmd);
             this._.commands[type][cmd].action(e, args);
+        }
+    }
+
+    callSpy(e) {
+        for( let spy in this._.commands[Bot.EVENT_TYPES.SPY] ) {
+            logger.info('Running spy: ' + spy);
+            this._.commands[Bot.EVENT_TYPES.SPY][spy].spy(e);
         }
     }
 }

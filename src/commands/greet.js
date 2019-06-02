@@ -1,5 +1,5 @@
 const Command = require('../command.js');
-const TemplateHelper = require('../utils/TemplaterHelper.js');
+const TemplaterHelper = require('../utils/TemplaterHelper.js');
 
 module.exports = class Greet extends Command {
     constructor(bot, settings) {
@@ -11,6 +11,6 @@ module.exports = class Greet extends Command {
     }
 
     welcome(string, obj) {
-        return TemplateHelper.mapToObject(string, obj);
+        return TemplaterHelper.mapToObject(string, obj);
     }
 }

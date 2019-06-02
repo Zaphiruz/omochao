@@ -2,7 +2,7 @@ const openTemplate = /(\{\{)/;
 const closeTemplate = /(\}\})/;
 const matchProp = /(?<=\{\{)(.*?)(?=\}\})/;
 
-module.export = class TemplaterHeper {
+module.exports = class TemplaterHelper {
     static mapToObject(string, object) {
         while( openTemplate.test(string) && closeTemplate.test(string) ) {
             let value = 'undefined';
@@ -11,7 +11,9 @@ module.export = class TemplaterHeper {
                 value = object[prop];
             }
 
-            stirng.replace(matchProp, value);
+            string = string.replace(`{{${prop}}}`, value);
         }
+
+        return string;
     }
 }
