@@ -1,4 +1,11 @@
 {
     "commandToken": "~",
-    "greeting": "Welcome {{username}}"
+    "greeting": "Welcome {{username}}",
+    "interjections": [
+        "***sneeses***",
+        "You're making me blush, {{username}}",
+        "I'm Omochao! I'll tell you anything you want to know. Look me up if you ever need some help!",
+        "Hello! My name is Omochao!",
+        "Press the A button to jump!"
+    ]
 }

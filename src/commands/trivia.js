@@ -84,11 +84,13 @@ module.exports = class Trivia extends Command {
             case 'start':
 
                 if(args[1]) {
-                    this.setSetting(args[1], args[2], e)
+                    let settingValue = processArgs(args, 2);
+                    this.setSetting(args[1], settingValue, e)
                 }
 
-                if( args[3] ) {
-                    this.setSetting(args[3], args[4], e)
+                if( args[2] ) {
+                    let settingValue = processArgs(args, 3);
+                    this.setSetting(args[2], settingValue, e)
                 }
 
                 // NO BREAK
@@ -122,7 +124,8 @@ module.exports = class Trivia extends Command {
                 break;
 
             case 'change':
-                this.setSetting(args[1], args[2], e)
+                let settingValue = processArgs(args, 2);
+                this.setSetting(args[1], settingValue, e)
                 break;
             
             default:
@@ -131,6 +134,10 @@ module.exports = class Trivia extends Command {
     }
 
     setSetting(setting, value, e) {
+        if( !value ) {
+            return e.channel.send(`You didn't pass a value to change ${setting} to.`);
+        }
+
         switch(setting) {
 
             case 'difficulty':
@@ -181,4 +188,16 @@ module.exports = class Trivia extends Command {
                 return this.currentQuestion;
             })
     }
+}
+
+function processArgs(args, startindex = 1) {
+    let str = "";
+
+    while ( args[startindex] != undefined 
+         && args[startindex] != 'category' 
+         && args[startindex] != 'difficulty' ) {
+            str += args.splice(startindex, 1) + " ";
+         }
+
+    return str.trim();
 }
