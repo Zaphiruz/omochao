@@ -8,6 +8,10 @@ module.exports = class Command {
         this.restrictedByRole = false;
     }
 
+    argsToLowerCase(args) {
+        return args.map( s => s.toLowerCase() );
+    }
+
     verification(e, args) {
         if( this.restrictedByRole && !e.member.roles.some( r => r.name === 'Omochao') ) {
             return false;
@@ -18,7 +22,7 @@ module.exports = class Command {
     
     triggerAction(e, args) {
         if( this.verification(e, args) ) {
-            this.action(e, args);
+            this.action(e, this.argsToLowerCase(args));
         }
     }
 

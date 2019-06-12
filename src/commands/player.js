@@ -30,6 +30,16 @@ module.exports = class Player extends Command {
         return val;
     }
 
+    // dont mod urls
+    argsToLowerCase(args) {
+        if( /(play|queue)/i.test(args[0]) ) {
+            args[0] = args[0].toLowerCase();
+            return args;
+        }
+
+        return super.argsToLowerCase(args);
+    }
+
     action(e, args) {
         
         switch( args[0] ) {
@@ -197,6 +207,10 @@ module.exports = class Player extends Command {
         console.log('song', song);
 
         this.currentStream = ytdl(song, {filter: 'audioonly'});
+        this.currentStream.on('error', (err) => {
+            logger.error(err.message);
+            e.channel.send('Something bad happened while tring to play your song...');
+        })
         this.currentDispatcher = this.currentConnection.playStream(this.currentStream, {volume: this.volume});
         this.currentDispatcher.once('end', () => {
             logger.info('song ended');
