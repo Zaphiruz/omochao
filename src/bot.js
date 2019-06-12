@@ -6,6 +6,7 @@ const Greeter = require('./commands/greet.js');
 const Pun = require('./commands/pun.js');
 const Trivia = require('./commands/trivia.js');
 const Spy = require('./commands/spy.js');
+const Player = require('./commands/player.js');
 
 module.exports = class Bot {
 
@@ -31,6 +32,7 @@ module.exports = class Bot {
         let greet= new Greeter(this._.bot, this.settings);
         let pun = new Pun(this._.bot, this.settings);
         let trivia= new Trivia(this._.bot, this.settings);
+        let player = new Player(this._.bot, this.settings);
         let spy = new Spy(this._.bot, this.settings);
 
         this._.commands = {
@@ -38,7 +40,8 @@ module.exports = class Bot {
                 ping,
                 pun,
                 trivia,
-                spy
+                spy,
+                player
             },
             [Bot.EVENT_TYPES.GUILD_MEMBER_ADD]: {
                 greet
@@ -69,7 +72,7 @@ module.exports = class Bot {
                     return;
                 }
 
-                let args = e.content.substring(this.settings.commandToken.length).split(' ').map( s  => s.toLowerCase());
+                let args = e.content.substring(this.settings.commandToken.length).split(' ').filter( s => !!s ).map( s  => s.toLowerCase());
                 let cmd = args.shift();
 
                 this.callAction(e, cmd, args, Bot.EVENT_TYPES.MESSAGE)

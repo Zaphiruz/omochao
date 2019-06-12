@@ -1,3 +1,5 @@
+require('./utils/Math.js');
+
 let auth, settings;
 try {
     auth = require("../auth.json");
