@@ -119,7 +119,7 @@ module.exports = class Player extends Command {
     }
 
     queueSong(e, url) {
-        if( !/(?<=https:\/\/www\.youtube\.com\/watch\?v=)(.*)$/i.test(url) ) {
+        if( !ytdl.validateURL(url) ) {
             logger.info('song rejected: ' + url);
             e.channel.send("The provided url wasn't for youtube and I can't seem to find a way to play it.");
             return;
@@ -183,11 +183,14 @@ module.exports = class Player extends Command {
         }
     }
 
+    // clean up
     destroyStream() {
         if( this.currentStream ) {
-            console.log('destrosy stream')
             this.currentStream.destroy();
             this.currentStream = undefined;
+        }
+
+        if( this.currentDispatcher ) {
             this.currentDispatcher.destroy();
             this.currentDispatcher = undefined;
         }
