@@ -14,6 +14,7 @@ module.exports = class Bot {
         return {
             MESSAGE: "message",
             GUILD_MEMBER_ADD: "guildMemberAdd",
+            GUILD_MEMBER_REMOVE: "guildMemberRemove",
             SPY: "spy"
         }
     }
@@ -27,6 +28,7 @@ module.exports = class Bot {
         this._.bot.on('ready', this.onready.bind(this));
         this._.bot.on(Bot.EVENT_TYPES.MESSAGE, this.onevent.bind(this, Bot.EVENT_TYPES.MESSAGE));
         this._.bot.on(Bot.EVENT_TYPES.GUILD_MEMBER_ADD, this.onevent.bind(this, Bot.EVENT_TYPES.GUILD_MEMBER_ADD));
+        this._.bot.on(Bot.EVENT_TYPES.GUILD_MEMBER_REMOVE, this.onevent.bind(this, Bot.EVENT_TYPES.GUILD_MEMBER_REMOVE));
 
         let ping = new Ping(this._.bot, this.settings);
         let greet= new Greeter(this._.bot, this.settings);
@@ -46,6 +48,9 @@ module.exports = class Bot {
             [Bot.EVENT_TYPES.GUILD_MEMBER_ADD]: {
                 greet
             },
+            [Bot.EVENT_TYPES.GUILD_MEMBER_REMOVE]: {
+                greet
+            },
             [Bot.EVENT_TYPES.SPY]: {
                 spy
             }
@@ -58,7 +63,8 @@ module.exports = class Bot {
         switch(type) {
 
             case Bot.EVENT_TYPES.GUILD_MEMBER_ADD:
-                this.callAction('greet', [], type);
+            case Bot.EVENT_TYPES.GUILD_MEMBER_REMOVE:
+                this.callAction(e, 'greet', [type], type);
                 break;
                 
             case Bot.EVENT_TYPES.MESSAGE:

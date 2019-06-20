@@ -1,6 +1,7 @@
 {
     "commandToken": "~",
-    "greeting": "Welcome {{username}}",
+    "greeting": "Welcome, {{username}}",
+    "goodbye": "Bye Bye, {{username}}",
     "interjections": [
         "***sneeses***",
         "You're making me blush, {{username}}",

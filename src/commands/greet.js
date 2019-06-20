@@ -7,10 +7,17 @@ module.exports = class Greet extends Command {
     }
 
     action(e, args) {
-        e.guild.channels.get('channelID').send(this.welcome(this.settings.greeting, e.user));
+        let message = this.settings.greeting;
+        if( args[0] == 'guildmemberremove' ) {
+            message = this.settings.goodbye;
+        }
+
+        e.guild.channels
+            .find(channel => channel.name === "general")
+            .send(this.tempate(message, e.user));
     }
 
-    welcome(string, obj) {
+    tempate(string, obj) {
         return TemplaterHelper.mapToObject(string, obj);
     }
 }
