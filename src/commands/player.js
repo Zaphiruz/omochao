@@ -94,12 +94,10 @@ module.exports = class Player extends Command {
                 break;
 
             case 'stop':
-                this.pauseSong();
                 this.disconnectFromChannel();
                 break;
 
             case 'skip':
-                this.pauseSong();
                 this.startNextSong(e);
                 break;
 
@@ -175,11 +173,11 @@ module.exports = class Player extends Command {
 
     disconnectFromChannel() {
         if( this.currentChannel ) {
+            this.destroyStream();
+
             this.currentChannel.leave();
             this.currentChannel = undefined;
             this.currentConnection = undefined;
-
-            this.destroyStream();
         }
     }
 
@@ -191,6 +189,7 @@ module.exports = class Player extends Command {
         }
 
         if( this.currentDispatcher ) {
+            this.currentDispatcher.end();
             this.currentDispatcher.destroy();
             this.currentDispatcher = undefined;
         }
@@ -215,10 +214,12 @@ module.exports = class Player extends Command {
             e.channel.send('Something bad happened while tring to play your song...');
         })
         this.currentDispatcher = this.currentConnection.playStream(this.currentStream, {volume: this.volume});
-        this.currentDispatcher.once('end', () => {
+        this.currentDispatcher.once('end', (reason) => {
             logger.info('song ended');
-            console.log('song ended');
-            this.startNextSong(e);
+            console.log('song ended', reason);
+            if( reason != 'user' ) {
+                this.startNextSong(e);
+            }
         });
         this.currentDispatcher.on('error', (err) => {
             logger.error(err);
