@@ -1,7 +1,7 @@
 {
     "commandToken": "~",
-    "greeting": "Welcome, {{username}}",
-    "goodbye": "Bye Bye, {{username}}",
+    "greeting": "Hi {{user}}, and welcome to Emi's Patreon Server! Remember to read the Rules chat just incase you say something or do something accidently. please enjoy yourself!!",
+    "goodbye": "Sorry to see you leaving, {{user}}!!",
     "interjections": [
         "***sneeses***",
         "You're making me blush, {{username}}",

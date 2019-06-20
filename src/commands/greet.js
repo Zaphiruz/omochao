@@ -13,8 +13,8 @@ module.exports = class Greet extends Command {
         }
 
         e.guild.channels
-            .find(channel => channel.name === "general")
-            .send(this.tempate(message, e.user));
+            .find(channel => channel.name === "welcome-goodbye")
+            .send(this.tempate(message, e));
     }
 
     tempate(string, obj) {
