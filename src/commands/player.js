@@ -229,14 +229,14 @@ module.exports = class Player extends Command {
     }
 
     pauseSong() {
-        if( this.currentStream ) {
-            this.currentStream.pause();
+        if( this.currentDispatcher ) {
+            this.currentDispatcher.pause();
         }
     }
 
     resumeSong() {
-        if( this.currentStream ) {
-            this.currentStream.resume();
+        if( this.currentDispatcher ) {
+            this.currentDispatcher.resume();
         }
     }
 
