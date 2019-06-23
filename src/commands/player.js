@@ -5,7 +5,7 @@ const ytdl = require('ytdl-core');
 module.exports = class Player extends Command {
     constructor(bot, settings) {
         super('player', bot, settings);
-        this.restrictedByRole = true;
+        this.restrictedByRole = false;
         this.settings.volume = 1;
 
         this.currentChannel = undefined;
@@ -150,10 +150,12 @@ module.exports = class Player extends Command {
         let permissions = voiceChannel.permissionsFor(e.client.user);
         if (!permissions.has('CONNECT')) {
             e.channel.send('I cannot connect to your voice channel, make sure I have the proper permissions!');
+            logger.error("Cannnot connect to channel");
             return Promise.reject();
         }
         if (!permissions.has('SPEAK')) {
             e.channel.send('I cannot speak in this voice channel, make sure I have the proper permissions!');
+            logger.error("Cannnot connect to channel");
             return Promise.reject();
         }
 
