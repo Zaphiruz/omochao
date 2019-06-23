@@ -1,3 +1,4 @@
+const logger = require('./utils/logger.js');
 
 // base class for commands
 module.exports = class Command {
@@ -14,6 +15,7 @@ module.exports = class Command {
 
     verification(e, args) {
         if( this.restrictedByRole && !e.member.roles.some( r => r.name === 'Omochao') ) {
+            logger.warn(`User [${e.user.username}] tried to use command [${e.message}] without permisson.`);
             return false;
         }
 
