@@ -1,10 +1,10 @@
 {
     "commandToken": "~",
-    "greeting": "Hi {{user}}, and welcome to Emi's Patreon Server! Remember to read the Rules chat just incase you say something or do something accidently. please enjoy yourself!!",
-    "goodbye": "Sorry to see you leaving, {{user}}!!",
+    "greeting": "Hi {{user}}, and welcome to Emi's Patreon Server! Don't forget to read the {{#rules}} chat before playing!",
+    "goodbye": "Sorry to see you go, {{user}}",
+    "playJams":"You get to listen to cool sounds! Getting ready to play your jams!",
     "interjections": [
         "***sneeses***",
-        "You're making me blush, {{username}}",
         "I'm Omochao! I'll tell you anything you want to know. Look me up if you ever need some help!",
         "Hello! My name is Omochao!",
         "Press the A button to jump!"

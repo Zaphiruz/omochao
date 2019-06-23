@@ -75,7 +75,7 @@ module.exports = class Player extends Command {
                             throw connection.err;
                         }
 
-                        e.channel.send('Getting ready to play your jams!');
+                        e.channel.send(this.settings.playJams);
 
                         if( args[1] ) {
                             this.queueSong(e, args[1]);
