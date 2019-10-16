@@ -213,7 +213,7 @@ module.exports = class Player extends Command {
         this.currentStream = ytdl(song, {filter: 'audioonly'});
         this.currentStream.on('error', (err) => {
             logger.error(err.message);
-            e.channel.send('Something bad happened while tring to play your song...');
+            e.channel.send('Something bad happened while trying to play your song...');
         })
         this.currentDispatcher = this.currentConnection.playStream(this.currentStream, {volume: this.volume});
         this.currentDispatcher.once('end', (reason) => {
