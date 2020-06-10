@@ -10,10 +10,13 @@
   "author": "Jacob Thomas",
   "license": "ISC",
   "dependencies": {
+    "@discordjs/opus": "^0.3.2",
     "@discordjs/uws": "^10.149.0",
     "cheerio": "^1.0.0-rc.3",
-    "discord.js": "^11.5.1",
+    "discord.js": "^12.2.0",
+    "ffmpeg-static": "^4.2.2",
     "node-fetch": "^2.6.0",
-    "winston": "^3.2.1"
+    "winston": "^3.2.1",
+    "ytdl-core-discord": "^1.2.0"
   }
 }

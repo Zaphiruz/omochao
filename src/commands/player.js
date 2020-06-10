@@ -1,6 +1,6 @@
 const Command = require('../command.js');
 const logger = require('../utils/logger.js');
-const ytdl = require('ytdl-core');
+const ytdl = require('ytdl-core-discord');
 
 module.exports = class Player extends Command {
     constructor(bot, settings) {
@@ -67,8 +67,9 @@ module.exports = class Player extends Command {
                         this.queueSong(e, args[1]);
                     }
                     return;
-                }
+                }   
 
+                debugger;
                 this.connectToChannel(e)
                     .then((connection) => {
                         if( connection.err ) {
@@ -132,7 +133,7 @@ module.exports = class Player extends Command {
     }
     
     connectToChannel(e) {
-        let voiceChannel = e.member.voiceChannel;
+        let voiceChannel = e.member.voice.channel;
         if( !this.currentChannel && !voiceChannel ) {
             e.channel.send("You need to be in a voice channel to play music.");
             return Promise.reject();
@@ -146,7 +147,7 @@ module.exports = class Player extends Command {
             return Promise.reject();
         }
 
-        // make sure bot pas permissions
+        // make sure bot has permissions
         let permissions = voiceChannel.permissionsFor(e.client.user);
         if (!permissions.has('CONNECT')) {
             e.channel.send('I cannot connect to your voice channel, make sure I have the proper permissions!');
@@ -197,7 +198,7 @@ module.exports = class Player extends Command {
         }
     }
 
-    startNextSong(e) {
+    async startNextSong(e) {
         this.destroyStream();
         console.log('starting next song')
 
@@ -210,12 +211,12 @@ module.exports = class Player extends Command {
         logger.info('starting song ' + song);
         console.log('song', song);
 
-        this.currentStream = ytdl(song, {filter: 'audioonly'});
+        this.currentStream = await ytdl(song, {filter: 'audioonly'});
         this.currentStream.on('error', (err) => {
             logger.error(err.message);
             e.channel.send('Something bad happened while trying to play your song...');
         })
-        this.currentDispatcher = this.currentConnection.playStream(this.currentStream, {volume: this.volume});
+        this.currentDispatcher = this.currentConnection.play(this.currentStream, { volume: this.volume, type: 'opus' });
         this.currentDispatcher.once('end', (reason) => {
             logger.info('song ended');
             console.log('song ended', reason);
