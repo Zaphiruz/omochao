@@ -3,10 +3,14 @@ require('./utils/Math.js');
 let auth, settings;
 try {
     auth = require("../auth.json");
+} catch(e) {
+    auth = { token: process.env.DISCORD_TOKEN || '' };
+}
+
+try {
     settings = require("../settings.json");
 } catch(e) {
-    auth = auth || {token: ""};
-    settings = settings || {};
+    settings = {};
 }
 
 const Bot = require('./bot.js');
