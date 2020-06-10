@@ -24,7 +24,7 @@ module.exports = class Player extends Command {
         this.settings.volume = val / 100;
 
         if( this.currentDispatcher ) {
-            this.currentDispatcher.volume = this.settings.volume;
+            this.currentDispatcher.setVolume(this.settings.volume);
         }
 
         return val;
@@ -32,7 +32,7 @@ module.exports = class Player extends Command {
 
     // dont mod urls
     argsToLowerCase(args) {
-        if( /(play|queue)/i.test(args[0]) ) {
+        if( /(play|queue|pl|q)/i.test(args[0]) ) {
             args[0] = args[0].toLowerCase();
             return args;
         }
@@ -44,6 +44,7 @@ module.exports = class Player extends Command {
         
         switch( args[0] ) {
 
+            case 'vol':
             case 'volume':
                 if( args[1] === undefined || isNaN(args[1]) ) {
                     e.channel.send('please provide a volume level between 0 and 100');
@@ -56,20 +57,20 @@ module.exports = class Player extends Command {
                 e.channel.send('volume set to: ' + vol);
                 break;
             
-            
+            case 're':
             case 'resume':
                 this.resumeSong();
                 break;
-
+            
+            case 'pl':
             case 'play':
                 if( this.currentChannel ) {
                     if( args[1] ) {
                         this.queueSong(e, args[1]);
                     }
                     return;
-                }   
+                }
 
-                debugger;
                 this.connectToChannel(e)
                     .then((connection) => {
                         if( connection.err ) {
@@ -89,19 +90,22 @@ module.exports = class Player extends Command {
                     })
                 break;
 
-            
+            case 'pa':
             case 'pause':
                 this.pauseSong();
                 break;
 
+            case 'st':
             case 'stop':
                 this.disconnectFromChannel();
                 break;
 
+            case 'sk':
             case 'skip':
                 this.startNextSong(e);
                 break;
-
+            
+            case 'q':
             case 'queue':
                 if( args[1] === undefined ) {
                     e.channel.send('please provide a link to play from');
@@ -211,7 +215,14 @@ module.exports = class Player extends Command {
         logger.info('starting song ' + song);
         console.log('song', song);
 
-        this.currentStream = await ytdl(song, {filter: 'audioonly'});
+        this.currentStream = await ytdl(song, {filter: 'audioonly'})
+            .catch((err) => {
+                logger.error(err.message);
+                e.channel.send('Something bad happened while trying to play your song...');
+            })
+        if(!this.currentStream) {
+            return;
+        }
         this.currentStream.on('error', (err) => {
             logger.error(err.message);
             e.channel.send('Something bad happened while trying to play your song...');
@@ -226,7 +237,7 @@ module.exports = class Player extends Command {
         });
         this.currentDispatcher.on('error', (err) => {
             logger.error(err);
-            e.channel.send('Something bad happened while tring to play your song...');
+            e.channel.send('Something bad happened while trying to play your song...');
             this.destroyStream();
         })
     }
