@@ -1,12 +1,12 @@
 const Command = require('../command.js');
-const request = require('request-promise');
+const fetch = require('node-fetch');
 const options = {
-    url: 'https://icanhazdadjoke.com/',
     headers: {
-        'Accept': 'text/plain'
+        'Accept': 'text/plain',
+        'User-Agent': 'Omochao (https://github.com/Zaphiruz/omochao)'
     }
-}
-
+};
+const url = 'https://icanhazdadjoke.com/';
 
 const logger = require('../utils/logger.js');
 
@@ -16,7 +16,8 @@ module.exports = class Joke extends Command {
     }
 
     action(e, args) {
-        request(options)
+        fetch(url, options)
+            .then(res => res.text())
             .then((joke) => {
                 e.channel.send(joke);
             })

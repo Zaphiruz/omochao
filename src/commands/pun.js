@@ -1,7 +1,6 @@
 const Command = require('../command.js');
 const $ = require('cheerio');
-const request= require('request-promise');
-
+const fetch = require('node-fetch');
 const logger = require('../utils/logger.js');
 
 module.exports = class Pun extends Command {
@@ -10,10 +9,11 @@ module.exports = class Pun extends Command {
     }
 
     action(e, args) {
-        //e.channel.send(['pong', ...args].join(' '));
         let url = `https://pungenerator.org/puns?utf8=%E2%9C%93&q=${ args.join('+') }&commit=Generate+Puns%21`;
         logger.info('fetching pun from ` '+ url)
-        request(url)
+
+        // might not work with node-fetch. didnt test since this was disabled
+        fetch(url)
             .then(html => $.load(html))
             .then($ => {
                 let facts = $('td:not(.action-buttons)').toArray()

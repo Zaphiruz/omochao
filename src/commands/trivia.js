@@ -1,5 +1,5 @@
 const Command = require('../command.js');
-const request = require('request-promise');
+const fetch = require('node-fetch');
 const logger = require('../utils/logger.js');
 
 module.exports = class Trivia extends Command {
@@ -171,10 +171,9 @@ module.exports = class Trivia extends Command {
 
     fetchQuestion() {
         let url = `https://opentdb.com/api.php?amount=1&encode=url3986${ this.currentDifficulty !== Trivia.DIFFICULTY.ANY ? '&difficulty='+this.currentDifficulty : '' }${ this.currentCategory !== Trivia.CATEGORY.ANY ? '&category='+this.currentCategory : '' }`;
-        return request(url)
-            .then(data => JSON.parse(data))
+        return fetch(url)
+            .then(res => res.json())
             .then( (data) => {
-                debugger;
                 if(data.response_code != 0) {
                     throw new Error('Error on Trivia API: ' + data.response_code)
                 }
