@@ -136,7 +136,7 @@ module.exports = class Player extends Command {
         if( this.queue.length == 1 && this.currentChannel && !this.currentStream ) {
             this.startNextSong(e);
         } else {
-            e.channel.send(`I've have queued your song to play when its your turn. #${this.queue.length} in line.`);
+            e.channel.send(`I've have queued your song to play when its your turn. It #${this.queue.length} in line.`);
         }
     }
     
