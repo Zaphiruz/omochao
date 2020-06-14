@@ -1,27 +1,30 @@
+const ChannelResolver = require('../utils/ChannelIdResolver.js');
+
 const openTemplate = /(\{\{)/;
 const closeTemplate = /(\}\})/;
 const matchProp = /(?<=\{\{)(.*?)(?=\}\})/;
 
 module.exports = class TemplaterHelper {
-    static mapToObject(string, object) {
+    static async mapToObject(string, object, bot, settings) {
         while( openTemplate.test(string) && closeTemplate.test(string) ) {
             let value = 'undefined';
             let prop = string.match(matchProp)[1];
 
             // filter channels by name
             if( prop[0] == '#' ) {
-                let chanName = prop.substring(1);
-                let channel = object.guild.channels.find( c => c.name == chanName );
-                value = channel.toString(); 
+                let channelName = prop.slice(1);
+                let channelId = ChannelResolver.resolveNameToId(channelName, settings);
+                let channel = await bot.channels.fetch(channelId);
+                value = channel;
             } 
             // non-channel props
             else {
                 let props = prop.toLowerCase().split('.');
-                value = getValue(object, props).toString();
+                value = getValue(object, props)
             }
             
 
-            string = string.replace(`{{${prop}}}`, value);
+            string = string.replace(`{{${prop}}}`, value && value.toString());
         }
 
         return string;

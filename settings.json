@@ -8,5 +8,9 @@
         "I'm Omochao! I'll tell you anything you want to know. Look me up if you ever need some help!",
         "Hello! My name is Omochao!",
         "Press the A button to jump!"
-    ]
+    ],
+    "channelIdMapping": {
+        "rules": "592154992220176395",
+        "welcome-goodbye": "591396573926129674"
+    }
 }

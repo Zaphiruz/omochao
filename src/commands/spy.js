@@ -22,9 +22,9 @@ module.exports = class Spy extends Command {
         }
     }
 
-    spy(e) {
+    async spy(e) {
         if( this.isOn && /omochao/i.test(e.content) ) {
-            e.channel.send(this.randomInterjection(e));
+            e.channel.send(await this.randomInterjection(e));
         }
     }
 
@@ -32,8 +32,8 @@ module.exports = class Spy extends Command {
         e.channel.send('spy interjects when "omochao" is said. this interface allows it to be turned off or on');
     }
 
-    randomInterjection(e) {
+    async randomInterjection(e) {
         let string = this.settings.interjections[ Math.floor(Math.random() * this.settings.interjections.length) ]
-        return TemplaterHelper.mapToObject(string, e.author);
+        return await TemplaterHelper.mapToObject(string, e.author, this.bot, this.settings);
     }
 }

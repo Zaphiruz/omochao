@@ -99,7 +99,7 @@ module.exports = class Bot {
 
     callAction(e, cmd, args, type) {
         if( cmd in this._.commands[type] ) {
-            logger.info('Running command: ' + cmd);
+            logger.info('Running command: ' + cmd, args);
             this._.commands[type][cmd].triggerAction(e, args);
         }
     }

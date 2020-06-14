@@ -218,19 +218,20 @@ module.exports = class Player extends Command {
         this.currentStream = await ytdl(song, {filter: 'audioonly'})
             .catch((err) => {
                 logger.error(err.message);
-                e.channel.send('Something bad happened while trying to play your song...');
+                e.channel.send('Something bad happened while trying to fetch your song...');
+                debugger;
             })
         if(!this.currentStream) {
             return;
         }
         this.currentStream.on('error', (err) => {
             logger.error(err.message);
-            e.channel.send('Something bad happened while trying to play your song...');
+            e.channel.send('Something bad happened while trying to stream your song...');
+            debugger;
         })
         this.currentDispatcher = this.currentConnection.play(this.currentStream, { volume: this.volume, type: 'opus' });
         this.currentDispatcher.once('end', (reason) => {
-            logger.info('song ended');
-            console.log('song ended', reason);
+            logger.info('song ended', reason);
             if( reason != 'user' ) {
                 this.startNextSong(e);
             }
@@ -238,6 +239,7 @@ module.exports = class Player extends Command {
         this.currentDispatcher.on('error', (err) => {
             logger.error(err);
             e.channel.send('Something bad happened while trying to play your song...');
+            debugger;
             this.destroyStream();
         })
     }
