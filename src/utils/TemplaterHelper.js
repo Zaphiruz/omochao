@@ -5,7 +5,7 @@ const closeTemplate = /(\}\})/;
 const matchProp = /(?<=\{\{)(.*?)(?=\}\})/;
 
 module.exports = class TemplaterHelper {
-    static async mapToObject(string, object, bot, settings) {
+    static async mapToObject(string, object, bot, settings, e) {
         while( openTemplate.test(string) && closeTemplate.test(string) ) {
             let value = 'undefined';
             let prop = string.match(matchProp)[1];
@@ -13,7 +13,7 @@ module.exports = class TemplaterHelper {
             // filter channels by name
             if( prop[0] == '#' ) {
                 let channelName = prop.slice(1);
-                let channelId = ChannelResolver.resolveNameToId(channelName, settings);
+                let channelId = ChannelResolver.resolveNameToId(channelName, settings, e);
                 let channel = await bot.channels.fetch(channelId);
                 value = channel;
             } 

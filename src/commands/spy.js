@@ -34,6 +34,6 @@ module.exports = class Spy extends Command {
 
     async randomInterjection(e) {
         let string = this.settings.interjections[ Math.floor(Math.random() * this.settings.interjections.length) ]
-        return await TemplaterHelper.mapToObject(string, e.author, this.bot, this.settings);
+        return await TemplaterHelper.mapToObject(string, e.author, this.bot, this.settings, e);
     }
 }

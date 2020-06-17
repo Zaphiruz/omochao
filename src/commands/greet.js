@@ -16,7 +16,7 @@ module.exports = class Greet extends Command {
             message = this.settings.goodbye;
         }
 
-        let channelId = ChannelResolver.resolveNameToId(channelName, this.settings);
+        let channelId = ChannelResolver.resolveNameToId(channelName, this.settings, e);
 
         try {
             let channel = await this.bot.channels.fetch(channelId)
@@ -29,6 +29,6 @@ module.exports = class Greet extends Command {
     }
 
     async tempate(string, obj) {
-        return await TemplaterHelper.mapToObject(string, obj, this.bot, this.settings);
+        return await TemplaterHelper.mapToObject(string, obj, this.bot, this.settings, obj);
     }
 }
